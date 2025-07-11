@@ -22,11 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.taskmanager.config.JwtAuthFilter;
 
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -45,11 +42,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .cors()  // ✅ Enable CORS support
+                .cors()  // ✅ Enables CORS
                 .and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Static files allowed
                         .requestMatchers(
                                 "/index.html",
                                 "/login.html",
@@ -61,15 +57,11 @@ public class SecurityConfig {
                                 "/images/**",
                                 "/"
                         ).permitAll()
-
-                        // Public APIs
                         .requestMatchers(
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/tasks"
                         ).permitAll()
-
-                        // All other endpoints require authentication
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -96,17 +88,18 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // ✅ Proper CORS Configuration for Spring Security
+    // ✅ Properly defined CORS mapping for deployed frontend
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:63342")); // Change if using another frontend host
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // Only if your frontend sends cookies or Authorization headers
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("https://task-manager-8cq0.onrender.com")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
 }
