@@ -1,5 +1,5 @@
 package com.example.taskmanager.controller;
-
+import com.example.taskmanager.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.taskmanager.dto.*;
@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.taskmanager.model.Role;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,6 +23,8 @@ public class AuthenticationController {
 
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
