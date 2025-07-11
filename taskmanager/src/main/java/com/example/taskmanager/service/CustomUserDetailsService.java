@@ -1,5 +1,5 @@
 package com.example.taskmanager.service;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
