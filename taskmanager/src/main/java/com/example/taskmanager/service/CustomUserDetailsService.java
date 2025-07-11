@@ -11,6 +11,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public boolean existsByUsernameOrEmail(String username, String email) {
+        return userRepository.findByUsername(username).isPresent()
+            || userRepository.findByEmail(email).isPresent();
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
