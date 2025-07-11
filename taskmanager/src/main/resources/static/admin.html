@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - TaskManager</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="styles/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-tasks me-2"></i>TaskManager
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin.html">Admin Panel</a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link">Welcome, <span class="current-user">Admin</span></span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-action="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Header -->
+    <section class="admin-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1><i class="fas fa-shield-alt me-2"></i>Admin Panel</h1>
+                    <p class="mb-0">Manage users and system settings</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <button class="btn btn-light" onclick="loadUsers()">
+                        <i class="fas fa-sync me-2"></i>Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Statistics -->
+    <section class="container my-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-2x mb-2"></i>
+                        <h3 id="total-users">0</h3>
+                        <p class="mb-0">Total Users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-check fa-2x mb-2"></i>
+                        <h3 id="active-users">0</h3>
+                        <p class="mb-0">Active Users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-crown fa-2x mb-2"></i>
+                        <h3 id="admin-users">0</h3>
+                        <p class="mb-0">Admin Users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-day fa-2x mb-2"></i>
+                        <h3 id="new-users">0</h3>
+                        <p class="mb-0">New Today</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filters -->
+    <section class="container mb-4">
+        <div class="search-filters">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="user-search" class="form-label">Search Users</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" 
+                               class="form-control" 
+                               id="user-search" 
+                               placeholder="Search by username or email...">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="role-filter" class="form-label">Role</label>
+                    <select class="form-select" id="role-filter">
+                        <option value="all">All Roles</option>
+                        <option value="USER">User</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="status-filter" class="form-label">Status</label>
+                    <select class="form-select" id="status-filter">
+                        <option value="all">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Users Table -->
+    <section class="container mb-5">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-users me-2"></i>User Management
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Users will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Empty state -->
+                <div id="users-empty-state" class="text-center py-4" style="display: none;">
+                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">No users found</h4>
+                    <p class="text-muted">Try adjusting your search criteria</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delete User Modal -->
+    <div class="modal fade" id="deleteUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle me-2 text-danger"></i>Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete user <strong id="delete-username"></strong>?</p>
+                    <p class="text-muted">This action cannot be undone. All user data including tasks will be permanently removed.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">
+                        <i class="fas fa-trash me-2"></i>Delete User
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-tasks me-2"></i>TaskManager</h5>
+                    <p class="text-muted">Organize your work, achieve your goals.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-muted mb-0">&copy; 2025 TaskManager. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="scripts/api.js"></script>
+    <script src="scripts/auth.js"></script>
+    
+    <script>
+        // Admin functionality
+        class AdminManager {
+            constructor() {
+                this.apiClient = apiClient;
+                this.users = [];
+                this.filteredUsers = [];
+                this.userToDelete = null;
+            }
+
+            // Load users from backend
+            async loadUsers() {
+                try {
+                    showLoading(true);
+                    this.users = await this.apiClient.get('/users');
+                    this.filteredUsers = [...this.users];
+                    this.renderUsers();
+                    this.updateStatistics();
+                } catch (error) {
+                    showMessage(error.message || 'Failed to load users.', 'error');
+                } finally {
+                    showLoading(false);
+                }
+            }
+
+            // Render users in table
+            renderUsers() {
+                const tableBody = document.getElementById('users-table-body');
+                const emptyState = document.getElementById('users-empty-state');
+                
+                if (this.filteredUsers.length === 0) {
+                    tableBody.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                
+                emptyState.style.display = 'none';
+                
+                const usersHtml = this.filteredUsers.map(user => `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>
+                            <i class="fas fa-user me-2"></i>${user.username}
+                            ${user.roles && user.roles.includes('ADMIN') ? '<span class="badge bg-warning ms-2">Admin</span>' : ''}
+                        </td>
+                        <td>${user.email}</td>
+                        <td>
+                            <span class="badge ${user.roles && user.roles.includes('ADMIN') ? 'bg-warning' : 'bg-secondary'}">
+                                ${user.roles && user.roles.includes('ADMIN') ? 'Admin' : 'User'}
+                            </span>
+                        </td>
+                        <td>${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-danger" 
+                                    onclick="adminManager.confirmDeleteUser(${user.id}, '${user.username}')"
+                                    ${user.roles && user.roles.includes('ADMIN') ? 'disabled title="Cannot delete admin users"' : ''}>
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                tableBody.innerHTML = usersHtml;
+            }
+
+            // Update statistics
+            updateStatistics() {
+                const totalUsers = this.users.length;
+                const activeUsers = this.users.filter(u => u.lastLogin || true).length; // Assuming all are active for now
+                const adminUsers = this.users.filter(u => u.roles && u.roles.includes('ADMIN')).length;
+                const today = new Date().toDateString();
+                const newUsers = this.users.filter(u => u.createdAt && new Date(u.createdAt).toDateString() === today).length;
+                
+                document.getElementById('total-users').textContent = totalUsers;
+                document.getElementById('active-users').textContent = activeUsers;
+                document.getElementById('admin-users').textContent = adminUsers;
+                document.getElementById('new-users').textContent = newUsers;
+            }
+
+            // Filter users
+            filterUsers(searchTerm, roleFilter, statusFilter) {
+                this.filteredUsers = this.users.filter(user => {
+                    const matchesSearch = !searchTerm || 
+                        user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        user.email.toLowerCase().includes(searchTerm.toLowerCase());
+                    
+                    const matchesRole = roleFilter === 'all' || 
+                        (roleFilter === 'ADMIN' && user.roles && user.roles.includes('ADMIN')) ||
+                        (roleFilter === 'USER' && (!user.roles || !user.roles.includes('ADMIN')));
+                    
+                    const matchesStatus = statusFilter === 'all' || 
+                        (statusFilter === 'active'); // For now, assume all are active
+                    
+                    return matchesSearch && matchesRole && matchesStatus;
+                });
+                
+                this.renderUsers();
+            }
+
+            // Confirm delete user
+            confirmDeleteUser(userId, username) {
+                this.userToDelete = userId;
+                document.getElementById('delete-username').textContent = username;
+                
+                const modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+                modal.show();
+            }
+
+            // Delete user
+            async deleteUser() {
+                if (!this.userToDelete) return;
+                
+                try {
+                    showLoading(true);
+                    await this.apiClient.delete(`/users/${this.userToDelete}`);
+                    showMessage('User deleted successfully!', 'success');
+                    
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteUserModal'));
+                    if (modal) modal.hide();
+                    
+                    // Reload users
+                    this.loadUsers();
+                    this.userToDelete = null;
+                } catch (error) {
+                    showMessage(error.message || 'Failed to delete user.', 'error');
+                } finally {
+                    showLoading(false);
+                }
+            }
+        }
+
+        // Global admin manager instance
+        const adminManager = new AdminManager();
+
+        // Global function for loading users (for onclick)
+        function loadUsers() {
+            adminManager.loadUsers();
+        }
+
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is admin
+            if (!apiClient.isAuthenticated() || !apiClient.isAdmin()) {
+                showMessage('Access denied. Admin privileges required.', 'error');
+                setTimeout(() => {
+                    redirectTo('/dashboard.html');
+                }, 2000);
+                return;
+            }
+
+            // Set user info
+            const userInfo = apiClient.getUserInfo();
+            if (userInfo) {
+                const userElements = document.querySelectorAll('.current-user');
+                userElements.forEach(element => {
+                    element.textContent = userInfo.username;
+                });
+            }
+
+            // Load users
+            adminManager.loadUsers();
+
+            // Initialize search and filters
+            const searchInput = document.getElementById('user-search');
+            const roleFilter = document.getElementById('role-filter');
+            const statusFilter = document.getElementById('status-filter');
+
+            const applyFilters = () => {
+                const searchTerm = searchInput.value;
+                const role = roleFilter.value;
+                const status = statusFilter.value;
+                adminManager.filterUsers(searchTerm, role, status);
+            };
+
+            searchInput.addEventListener('input', applyFilters);
+            roleFilter.addEventListener('change', applyFilters);
+            statusFilter.addEventListener('change', applyFilters);
+
+            // Initialize delete confirmation
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            confirmDeleteBtn.addEventListener('click', () => {
+                adminManager.deleteUser();
+            });
+        });
+    </script>
+</body>
+</html>

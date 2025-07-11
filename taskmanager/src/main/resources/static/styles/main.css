@@ -1,0 +1,447 @@
+/* Import Bootstrap Dark Theme */
+@import url('https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css');
+
+/* Custom styles for task management app */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+/* Header styles */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    margin: 0 0.5rem;
+}
+
+/* Main content */
+.main-content {
+    min-height: calc(100vh - 56px);
+    padding: 2rem 0;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons .btn {
+    margin: 0.5rem;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 50px;
+}
+
+/* Form styles */
+.form-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--bs-card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--bs-primary);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.75rem;
+    border: 1px solid var(--bs-border-color);
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    transform: translateY(-2px);
+}
+
+/* Task card styles */
+.task-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: var(--bs-card-bg);
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.task-card .card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--bs-border-color);
+    padding: 1rem;
+}
+
+.task-card .card-body {
+    padding: 1.5rem;
+}
+
+.task-card .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--bs-heading-color);
+}
+
+.task-card .card-text {
+    color: var(--bs-secondary-color);
+    margin-bottom: 1rem;
+}
+
+.task-card .card-footer {
+    background: transparent;
+    border-top: 1px solid var(--bs-border-color);
+    padding: 1rem;
+}
+
+/* Dashboard styles */
+.dashboard-header {
+    background: var(--bs-primary);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-stats {
+    margin-bottom: 2rem;
+}
+
+.dashboard-stats .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.dashboard-stats .card:hover {
+    transform: translateY(-3px);
+}
+
+.dashboard-stats .card-body {
+    padding: 1.5rem;
+}
+
+.dashboard-stats h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* Search and filter styles */
+.search-filters {
+    background: var(--bs-card-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-filters .form-control,
+.search-filters .form-select {
+    border-radius: 8px;
+    border: 1px solid var(--bs-border-color);
+}
+
+/* Badge styles */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 6px;
+}
+
+/* Collaborators styles */
+.collaborators .badge {
+    margin-right: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Modal styles */
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--bs-border-color);
+    padding: 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--bs-border-color);
+    padding: 1.5rem;
+}
+
+/* Loading styles */
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Message styles */
+.message-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    min-width: 300px;
+}
+
+.alert {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Admin styles */
+.admin-header {
+    background: var(--bs-danger);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.user-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: var(--bs-card-bg);
+}
+
+.user-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.user-card .card-body {
+    padding: 1.5rem;
+}
+
+.user-card .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-section p {
+        font-size: 1rem;
+    }
+    
+    .form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .dashboard-header h1 {
+        font-size: 2rem;
+    }
+    
+    .admin-header h1 {
+        font-size: 2rem;
+    }
+    
+    .task-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-buttons .btn {
+        display: block;
+        margin: 0.5rem 0;
+        width: 100%;
+    }
+    
+    .search-filters {
+        padding: 1rem;
+    }
+    
+    .dashboard-stats .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Utility classes */
+.text-gradient {
+    background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+.border-radius-lg {
+    border-radius: 10px !important;
+}
+
+.border-radius-xl {
+    border-radius: 15px !important;
+}
+
+/* Animation classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Focus styles for accessibility */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Dark mode specific adjustments */
+[data-bs-theme="dark"] .task-card {
+    background: var(--bs-dark);
+    border: 1px solid var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .form-container {
+    background: var(--bs-dark);
+    border: 1px solid var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .search-filters {
+    background: var(--bs-dark);
+    border: 1px solid var(--bs-border-color);
+}
