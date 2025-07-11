@@ -13,13 +13,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        try {
-            User savedUser = userService.registerUser(user);
-            return ResponseEntity.ok(savedUser);
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        }
-    }
+    // @PostMapping("/register")
+    // public ResponseEntity<?> registerUser(@RequestBody User user) {
+    //     try {
+    //         User savedUser = userService.registerUser(user);
+    //         return ResponseEntity.ok(savedUser);
+    //     } catch (RuntimeException ex) {
+    //         return ResponseEntity.badRequest().body(ex.getMessage());
+    //     }
+    // }
 }
