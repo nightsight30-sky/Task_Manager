@@ -44,16 +44,16 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public AuthenticationResponse login(@RequestBody AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(), request.getPassword()
-                )
-        );
+public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            request.getUsername(), request.getPassword()
+        )
+    );
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        final String jwt = jwtService.generateToken(userDetails);
+    final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+    final String jwt = jwtService.generateToken(userDetails);
 
-        return new AuthenticationResponse(jwt);
-    }
+    return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
+}
 }
