@@ -1,4 +1,5 @@
 package com.example.taskmanager.controller;
+
 import com.example.taskmanager.model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.taskmanager.model.Role;
 
+@CrossOrigin(origins = "https://task-manager-8cq0.onrender.com", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
@@ -23,41 +25,44 @@ public class AuthenticationController {
 
     @Autowired
     private JwtService jwtService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-    // Check if user exists
-    if (userDetailsService.existsByUsernameOrEmail(request.getUsername(), request.getEmail())) {
-        return ResponseEntity.badRequest().body("Username or Email already exists");
+        // Log incoming request
+        System.out.println("Incoming register request: " + request);
+
+        // Check if user exists
+        if (userDetailsService.existsByUsernameOrEmail(request.getUsername(), request.getEmail())) {
+            return ResponseEntity.badRequest().body("Username or Email already exists");
+        }
+
+        // Create new user
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.valueOf(request.getRole().toUpperCase()));
+
+        // Save user
+        userDetailsService.save(user);
+
+        return ResponseEntity.ok("User registered successfully");
     }
 
-    // Create new user
-    User user = new User();
-    user.setUsername(request.getUsername());
-    user.setEmail(request.getEmail());
-    user.setPassword(passwordEncoder.encode(request.getPassword()));
-    user.setRole(Role.valueOf(request.getRole().toUpperCase()));
-
-    // Save user
-    userDetailsService.save(user);  // This method must be implemented in your service
-
-    return ResponseEntity.ok("User registered successfully");
-}
-
-
     @PostMapping("/login")
-public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
-    authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(
-            request.getUsername(), request.getPassword()
-        )
-    );
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                request.getUsername(), request.getPassword()
+            )
+        );
 
-    final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-    final String jwt = jwtService.generateToken(userDetails);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        final String jwt = jwtService.generateToken(userDetails);
 
-    return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
-}
+        return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
+    }
 }
